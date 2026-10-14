@@ -1,0 +1,155 @@
+:root {
+  --bg: #f6f7f9;
+  --card: #ffffff;
+  --text: #1d2330;
+  --muted: #5a6272;
+  --accent: #1f5fbf;
+  --accent-text: #ffffff;
+  --border: #d6dbe3;
+  --notice-bg: #eef4fc;
+  --focus: #ffb000;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121418;
+    --card: #1c2028;
+    --text: #e8ebf0;
+    --muted: #a7afbd;
+    --accent: #6aa3ff;
+    --accent-text: #0b1220;
+    --border: #353c4a;
+    --notice-bg: #1d2a3d;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  background: var(--card);
+  padding: 0.5rem 1rem;
+  z-index: 10;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.site-header, .site-footer {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+.site-name {
+  margin: 0;
+  font-weight: 600;
+}
+.site-footer {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+main {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+h1 {
+  font-size: 1.6rem;
+  line-height: 1.25;
+  margin-top: 0;
+}
+h2 {
+  font-size: 1.05rem;
+  margin-bottom: 0.25rem;
+}
+
+.lead {
+  color: var(--muted);
+}
+
+.notice {
+  background: var(--notice-bg);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin: 1.25rem 0;
+}
+.notice p {
+  margin: 0 0 0.75rem;
+}
+.notice p:last-child {
+  margin-bottom: 0;
+}
+
+.field {
+  margin-bottom: 1rem;
+}
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+.hint {
+  margin: 0 0 0.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+input[type="file"] {
+  font: inherit;
+  max-width: 100%;
+}
+
+.button {
+  display: inline-block;
+  font: inherit;
+  font-weight: 600;
+  color: var(--accent-text);
+  background: var(--accent);
+  border: 0;
+  border-radius: 8px;
+  padding: 0.7rem 1.2rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+.button:hover {
+  filter: brightness(1.08);
+}
+
+a {
+  color: var(--accent);
+}
+
+.report {
+  border-top: 1px solid var(--border);
+  padding-top: 0.75rem;
+  margin-top: 0.75rem;
+}
+.report h3 {
+  font-size: 1.05rem;
+  margin: 0 0 0.25rem;
+  word-break: break-all;
+}

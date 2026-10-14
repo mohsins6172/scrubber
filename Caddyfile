@@ -1,0 +1,12 @@
+{$DOMAIN} {
+	encode zstd gzip
+	reverse_proxy app:8000 {
+		# Allow time for large uploads and processing.
+		transport http {
+			read_timeout 180s
+			write_timeout 180s
+		}
+	}
+	# Upload size is limited in the app (MAX_UPLOAD_MB). Caddy's own limit is
+	# left unset so the app can return its own message.
+}

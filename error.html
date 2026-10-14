@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Error {{ code }} · Metadata Privacy Scrubber{% endblock %}
+{% block content %}
+<section class="card">
+  <h1>Something went wrong ({{ code }})</h1>
+  <p>{{ message }}</p>
+  <p><a class="button" href="{{ url_for('index') }}">Back to the upload page</a></p>
+</section>
+{% endblock %}

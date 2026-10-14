@@ -1,0 +1,39 @@
+# Runs the app behind Caddy, which provides HTTPS automatically.
+# Set DOMAIN in .env (for example: DOMAIN=scrub.example.com) and point the
+# domain's DNS A record at this server before starting.
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      - MAX_UPLOAD_MB=100
+    expose:
+      - "8000"
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - DOMAIN=${DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

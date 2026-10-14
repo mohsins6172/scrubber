@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h1>Remove personal data from your files</h1>
+  <p class="lead">
+    Upload photos, PDFs, Word, PowerPoint, or Excel files. We remove location,
+    camera and device details, timestamps, and author names, then return a
+    cleaned copy for download.
+  </p>
+
+  <div class="notice" role="note">
+    <h2>What we keep</h2>
+    <p>
+      AI provenance markers are kept unchanged. These include C2PA Content Credentials,
+      AI generator labels, and Stable Diffusion generation details. Cleaning does not
+      remove or hide them.
+    </p>
+    <h2>Signed files</h2>
+    <p>
+      If a file carries a digital signature, such as a C2PA manifest, cleaning changes
+      the file, so its signature will show as broken afterwards. This is expected.
+    </p>
+  </div>
+
+  <p><a href="{{ url_for('inspect_page') }}">Only want to check a file for AI markers? Use the read-only checker.</a></p>
+
+  <form method="post" action="{{ url_for('scrub') }}" enctype="multipart/form-data" class="upload-form">
+    <div class="field">
+      <label for="files">Choose files</label>
+      <p class="hint" id="files-hint">
+        Up to 20 files, {{ max_mb }} MB in total. Images, PDF, DOCX, PPTX, XLSX.
+      </p>
+      <input id="files" name="files" type="file" multiple required
+             aria-describedby="files-hint"
+             accept=".jpg,.jpeg,.png,.webp,.tif,.tiff,.heic,.avif,.pdf,.docx,.pptx,.xlsx">
+    </div>
+    <button type="submit" class="button">Clean and download</button>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Check AI markers · Metadata Privacy Scrubber{% endblock %}
+{% block content %}
+<section class="card">
+  <h1>Check a file for AI provenance markers</h1>
+  <p class="lead">
+    This check only reads your file. It reports AI markers such as C2PA Content
+    Credentials, the IPTC AI source type, and Stable Diffusion generation details.
+    Nothing is changed or removed.
+  </p>
+
+  <form method="post" action="{{ url_for('inspect_upload') }}" enctype="multipart/form-data" class="upload-form">
+    <div class="field">
+      <label for="files">Choose files</label>
+      <p class="hint" id="files-hint">Up to 20 files, {{ max_mb }} MB in total.</p>
+      <input id="files" name="files" type="file" multiple required aria-describedby="files-hint">
+    </div>
+    <button type="submit" class="button">Check files</button>
+  </form>
+
+  {% if reports is not none %}
+  <h2>Results</h2>
+  {% for r in reports %}
+    <article class="report" aria-labelledby="r{{ loop.index }}">
+      <h3 id="r{{ loop.index }}">{{ r.file }}</h3>
+      {% if r.error %}
+        <p>Could not check this file: {{ r.error }}</p>
+      {% else %}
+        {% if r.ai_markers_found %}
+          <p><strong>AI markers found:</strong></p>
+          <ul>{% for m in r.markers %}<li>{{ m }}</li>{% endfor %}</ul>
+        {% else %}
+          <p>No AI provenance markers found.</p>
+        {% endif %}
+        {% if r.c2pa.present %}
+          <p>Created by: {{ r.c2pa.generator | join(", ") if r.c2pa.generator else "not stated" }}</p>
+          {% set sig = r.c2pa.signature %}
+          {% if sig.checked %}
+            <p>Signature state: {{ sig.state }}{% if sig.issuer %} (issuer: {{ sig.issuer }}){% endif %}</p>
+            {% if sig.problems %}<p class="hint">Problems reported: {{ sig.problems | join(", ") }}</p>{% endif %}
+          {% else %}
+            <p class="hint">Signature not checked: {{ sig.reason }}</p>
+          {% endif %}
+        {% endif %}
+        {% if r.software %}<p class="hint">Software tag: {{ r.software | join(", ") }}</p>{% endif %}
+      {% endif %}
+    </article>
+  {% endfor %}
+  {% endif %}
+</section>
+{% endblock %}
